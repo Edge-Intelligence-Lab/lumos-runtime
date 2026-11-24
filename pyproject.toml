@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumos-runtime"
+version = "0.1.0"
+description = "Runtime foundation and read-only host inspection for Lumos Touch R1 on RDK X5"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+lumos-runtime = "lumos_runtime.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
