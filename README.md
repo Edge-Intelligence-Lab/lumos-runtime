@@ -26,6 +26,7 @@ MuJoCo 4.0.1 提供带详细外观的 LumosTouch V3 工作台、Studio 网页查
 
 - [架构与模块边界](docs/architecture.md)
 - [RDK X5 首机联调与验收](docs/bring-up.md)
+- [2026-11-24 双臂联调记录](docs/teleoperation-2026-11-24.md)
 - [贡献与本地检查](CONTRIBUTING.md)
 
 项目组织参考实验室的 [OpenArm Runtime](https://github.com/Edge-Intelligence-Lab/openarm-runtime)。
