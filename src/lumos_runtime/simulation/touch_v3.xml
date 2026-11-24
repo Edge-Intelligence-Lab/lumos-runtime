@@ -1,0 +1,114 @@
+<mujocoinclude>
+  <default>
+    <default class="touch_visual">
+      <geom type="mesh" group="1" contype="0" conaffinity="0" density="0" material="touch_shell"/>
+    </default>
+    <default class="touch_collision">
+      <geom group="3" rgba="0.2 0.55 0.8 0.3" friction="0.8 0.01 0.001"/>
+    </default>
+    <default class="touch_arm">
+      <joint damping="2" frictionloss="0.08" armature="0.02"/>
+      <position kp="100" kv="10"/>
+    </default>
+    <default class="touch_finger">
+      <joint type="slide" axis="0 1 0" damping="1" armature="0.001"/>
+    </default>
+  </default>
+
+  <asset>
+    <material name="touch_shell" rgba="0.73 0.75 0.78 1" specular="0.35" shininess="0.43"/>
+    <mesh name="base_link" file="base_link.STL"/>
+    <mesh name="link1" file="link1.STL"/>
+    <mesh name="link2" file="link2.STL"/>
+    <mesh name="link3" file="link3.STL"/>
+    <mesh name="link4" file="link4.STL"/>
+    <mesh name="link5" file="link5.STL"/>
+    <mesh name="gripper_base" file="gripper_base.STL"/>
+    <mesh name="gripper_link1" file="gripper_link1.STL"/>
+    <mesh name="gripper_link2" file="gripper_link2.STL"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link">
+      <geom class="touch_visual" mesh="base_link"/>
+      <geom class="touch_collision" name="base_collision" type="cylinder" pos="0 0 0.028" size="0.059 0.028"/>
+      <body name="link1" gravcomp="1">
+        <inertial pos="0.02 -0.002 0.109" quat="0.707107 0 0 0.707107" mass="0.496" diaginertia="0.000356 0.000349 0.000267"/>
+        <joint class="touch_arm" name="joint1" range="-2.824 2.824" axis="0 0 1"/>
+        <geom class="touch_visual" mesh="link1"/>
+        <geom class="touch_collision" type="capsule" fromto="0.024 -0.033 0.117 0.024 0.033 0.117" size="0.0285"/>
+        <body name="link2" pos="0.024 0 0.117" gravcomp="1">
+          <inertial pos="-0.19164 -0.001145 -0.000057" quat="0 0.707107 0 0.707107" mass="0.774" diaginertia="0.006701 0.006613 0.00037"/>
+          <joint class="touch_arm" name="joint2" range="-0.209 3.508" axis="0 1 0"/>
+          <geom class="touch_visual" mesh="link2"/>
+          <geom class="touch_collision" type="capsule" fromto="0.015 0 0 -0.293 0 0" size="0.025"/>
+          <body name="link3" pos="-0.265 0 0" gravcomp="1">
+            <inertial pos="0.17632 -0.001549 0.054649" quat="0.469159 0.529046 0.529046 0.469159" mass="0.67366" diaginertia="0.007196 0.00718706 0.000396939"/>
+            <joint class="touch_arm" name="joint3" range="-3.193 0" axis="0 1 0"/>
+            <geom class="touch_visual" mesh="link3"/>
+            <geom class="touch_collision" type="capsule" fromto="-0.02 0 0.062 0.293 0 0.062" size="0.03"/>
+            <body name="link4" pos="0.265 0 0.062" gravcomp="1">
+              <inertial pos="0.064717 0 0.047271" quat="0 0.911023 0 0.412355" mass="0.45575" diaginertia="0.000729073 0.000662 0.000232927"/>
+              <joint class="touch_arm" name="joint4" range="-1.71 1.71" axis="0 1 0"/>
+              <geom class="touch_visual" mesh="link4"/>
+              <geom class="touch_collision" type="capsule" fromto="0.078 0 0.032 0.078 0 0.085" size="0.03"/>
+              <body name="link5" pos="0.078 0 -0.00295" gravcomp="1">
+                <inertial pos="0.002443 0 0.002098" quat="0.997736 -0.00108153 -0.0672414 -0.000624511" mass="0.37166" diaginertia="0.000176542 0.00017 0.000146458"/>
+                <joint class="touch_arm" name="joint5" range="-1.71 1.71" axis="0 0 1"/>
+                <geom class="touch_visual" mesh="link5"/>
+                <geom class="touch_collision" type="capsule" fromto="-0.0235 0 0 0.082 0 0" size="0.03"/>
+                <body name="gripper_base" pos="0.0255 0 0" gravcomp="1">
+                  <inertial pos="0.043232 0.000041 0.000635" quat="0.5 0.5 -0.5 0.5" mass="0.484919" diaginertia="0.000433 0.000344 0.000318"/>
+                  <joint class="touch_arm" name="joint6" range="-2.856 2.856" axis="1 0 0"/>
+                  <geom class="touch_visual" mesh="gripper_base"/>
+                  <geom class="touch_collision" type="box" pos="0.07 0 0" size="0.063 0.043 0.03"/>
+                  <site name="flange" size="0.004" group="4"/>
+                  <site name="tool_center" pos="0.15584 0 0" size="0.004" group="4"/>
+                  <!-- Provisional camera pose and field of view for simulation only. -->
+                  <camera name="wrist" pos="0.07 0 0.075" xyaxes="0 -1 0 0.50 0 0.8660254"
+                          fovy="58" resolution="640 480"/>
+                  <body name="gripper_link1" pos="0.15584 0 0" gravcomp="1">
+                    <inertial pos="-0.063436 -0.016849 -0.0013986" quat="0.5 0.5 0.5 0.5" mass="0.043757" diaginertia="0.000024 0.000020 0.000011"/>
+                    <joint class="touch_finger" name="gripper_joint1" range="-0.0425 0"/>
+                    <geom class="touch_visual" mesh="gripper_link1"/>
+                    <geom class="touch_collision" name="finger1_pad" type="box" pos="-0.003 -0.005 0" size="0.016 0.004 0.012"/>
+                  </body>
+                  <body name="gripper_link2" pos="0.15584 0 0" gravcomp="1">
+                    <inertial pos="-0.063226 0.016763 -0.00085755" quat="0.5 0.5 0.5 0.5" mass="0.043114" diaginertia="0.000024 0.000020 0.000011"/>
+                    <joint class="touch_finger" name="gripper_joint2" range="0 0.0425"/>
+                    <geom class="touch_visual" mesh="gripper_link2"/>
+                    <geom class="touch_collision" name="finger2_pad" type="box" pos="-0.003 0.005 0" size="0.016 0.004 0.012"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude body1="link3" body2="link5"/>
+  </contact>
+
+  <equality>
+    <joint name="parallel_jaws" joint1="gripper_joint1" joint2="gripper_joint2" polycoef="0 -1 0 0 0"/>
+  </equality>
+  <tendon>
+    <fixed name="jaw_gap">
+      <joint joint="gripper_joint1" coef="-1"/>
+      <joint joint="gripper_joint2" coef="1"/>
+    </fixed>
+  </tendon>
+
+  <actuator>
+    <position class="touch_arm" name="joint1_target" joint="joint1" inheritrange="1" forcerange="-27 27"/>
+    <position class="touch_arm" name="joint2_target" joint="joint2" inheritrange="1" forcerange="-27 27"/>
+    <position class="touch_arm" name="joint3_target" joint="joint3" inheritrange="1" forcerange="-27 27"/>
+    <position class="touch_arm" name="joint4_target" joint="joint4" inheritrange="1" forcerange="-7 7"/>
+    <position class="touch_arm" name="joint5_target" joint="joint5" inheritrange="1" forcerange="-12.5 12.5"/>
+    <position class="touch_arm" name="joint6_target" joint="joint6" inheritrange="1" forcerange="-12.5 12.5"/>
+    <position name="jaw_gap_target" tendon="jaw_gap" kp="400" kv="5" ctrlrange="0 0.085" forcerange="-30 30"/>
+  </actuator>
+</mujocoinclude>
