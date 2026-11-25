@@ -12,6 +12,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="lumos-runtime")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("inspect", help="List host-visible device candidates without opening them")
+    alignment = commands.add_parser("plan-startup-alignment", help="Preview operator-arm targets without opening devices")
+    alignment.add_argument("calibration", type=Path, help="Active Touch R1 calibration JSON")
+    alignment.add_argument("--operator-deg", type=float, nargs=6, required=True, metavar="DEG",
+                           help="Current operator encoder angles in servo ID order (0 to 5)")
+    alignment.add_argument("--mechanical-rad", type=float, nargs=6, metavar="RAD",
+                           help="Measured mechanical joint angles. Defaults to the saved reference pose.")
     asset_command = commands.add_parser("sim-assets", help="Download and verify the simulation visual meshes")
     simulation = commands.add_parser("simulate", help="Run the MuJoCo workbench")
     calibration = commands.add_parser("calibrate-wrist", help="Fit wrist calibration from paired captures offline")
@@ -31,7 +37,13 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
-        if args.command == "sim-assets":
+        if args.command == "plan-startup-alignment":
+            from .startup_alignment import plan_startup_alignment
+
+            calibration_data = json.loads(args.calibration.read_text(encoding="utf-8"))
+            plan = plan_startup_alignment(calibration_data, args.operator_deg, args.mechanical_rad)
+            print(json.dumps([asdict(joint) for joint in plan], indent=2, allow_nan=False))
+        elif args.command == "sim-assets":
             from .simulation import default_mesh_directory, fetch_meshes
 
             directory = args.assets_dir if args.assets_dir is not None else default_mesh_directory()

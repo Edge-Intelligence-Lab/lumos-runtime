@@ -2,9 +2,9 @@
 
 ```mermaid
 flowchart LR
-    Leader["StarArm102 主臂"] -- "USB 串口 / UART" --> X5["RDK X5"]
+    Leader["StarArm102 遥操作臂"] <-->|"USB 串口 / UART"| X5["RDK X5"]
     Camera["腕部 USB UVC 相机"] -- "RGB 帧" --> X5
-    X5 <-->|"SocketCAN 控制 / 反馈"| Follower["Lumos Touch R1 从臂"]
+    X5 <-->|"SocketCAN 控制 / 反馈"| Follower["Lumos Touch R1 机械臂"]
     X5 -->|"对齐后的数据集"| GPU["GPU 工作站"]
     X5 -->|"观测"| Server["推理服务"]
     Server -->|"动作块"| X5
@@ -13,8 +13,9 @@ flowchart LR
 | 组件 | 责任 | 当前入口 |
 | --- | --- | --- |
 | 主机探测 | 枚举 Linux 设备节点和 SocketCAN 接口 | `lumos-runtime inspect` |
-| 主臂输入 | 按实际串口读取六轴和夹爪输入 | 合作方遥操作工程 |
-| 从臂控制 | 在 X5 读取 CAN 反馈、管理使能及发送控制命令 | 合作方遥操作工程 |
+| 遥操作臂串口 | 读取六轴和夹爪，现场原型可下发启动对齐目标 | 合作方遥操作工程与 X5 实验原型 |
+| 启动对齐预览 | 通过校准映射反算遥操作臂的六轴目标 | `lumos-runtime plan-startup-alignment` |
+| 机械臂控制 | 在 X5 读取 CAN 反馈、管理使能及发送控制命令 | 合作方遥操作工程 |
 | 视觉 | 从 X5 的 V4L2 设备读取腕部 RGB 图像，可扩展全局相机 | 合作方数采工程 |
 | 遥操作与数据 | 管理校准和跟随，记录源时间戳并离线对齐数据 | 合作方现场工程 |
 | 训练及推理 | 在工作站训练和推理，X5 管理实际动作执行 | 合作方训练和部署流程 |

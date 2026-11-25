@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lumos-runtime"
 version = "0.1.0"
-description = "Runtime foundation and read-only host inspection for Lumos Touch R1 on RDK X5"
+description = "Read-only device inspection, startup alignment preview, and simulation for Lumos Touch R1"
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -14,6 +14,10 @@ simulation = ["mujoco==4.0.1", "pillow"]
 
 [project.scripts]
 lumos-runtime = "lumos_runtime.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Edge-Intelligence-Lab/lumos-runtime"
+Documentation = "https://github.com/Edge-Intelligence-Lab/lumos-runtime/tree/main/docs"
 
 [tool.setuptools.packages.find]
 where = ["src"]
