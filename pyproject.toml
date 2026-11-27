@@ -16,8 +16,8 @@ simulation = ["mujoco==4.0.1", "pillow"]
 lumos-runtime = "lumos_runtime.cli:main"
 
 [project.urls]
-Repository = "https://github.com/Edge-Intelligence-Lab/lumos-runtime"
-Documentation = "https://github.com/Edge-Intelligence-Lab/lumos-runtime/tree/main/docs"
+Repository = "https://github.com/Edge-Intelligence-Lab/lumos-edge-runtime"
+Documentation = "https://github.com/Edge-Intelligence-Lab/lumos-edge-runtime/tree/main/docs"
 
 [tool.setuptools.packages.find]
 where = ["src"]
